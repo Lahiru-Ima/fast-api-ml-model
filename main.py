@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -120,6 +121,12 @@ sample_data = [
 ]
 
 
+class Answer(BaseModel):
+    id: int
+    question: str
+    options: List[str] = []
+
+
 class Question(BaseModel):
     question1: int
     question2: int
@@ -166,17 +173,19 @@ def prediction(lst):
 def get_question():
     return sample_data
 
+
 @app.get("/{id}")
-def get_one_question(id:int):
+def get_one_question(id: int):
     return sample_data[id-1]
 
 
 @app.post("/")
-def create_question(question: Question):
-    answers = question.dict()
-    feature_list = [answer for answer in answers.values()]
-    pred_value = prediction(feature_list)
+def create_question(answer:  List[int]):
+    # answers = question.dict()
+    # feature_list = [answer for answer in answers.values()]
+    pred_value = prediction(answer)
     return pred_value
+    # return answer
 
 # if __name__ == "__main__":
 #     uvicorn.run(app,host='127.0.0.1',port=8000)

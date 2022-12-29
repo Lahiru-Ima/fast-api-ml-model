@@ -150,9 +150,6 @@ class Question(BaseModel):
 
 def prediction(lst):
     model = joblib.load("dep_predict_model.pickle")
-    # filename = 'dep_predict_model.pickle'
-    # with open(filename,'rb') as file:
-    #     model = pickle.load(file)
     pred_value = model.predict([lst])
     # return pred_value
     if pred_value == [4]:
@@ -187,5 +184,3 @@ def create_question(answer:  List[int]):
     return pred_value
     # return answer
 
-# if __name__ == "__main__":
-#     uvicorn.run(app,host='127.0.0.1',port=8000)
